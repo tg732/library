@@ -6,8 +6,8 @@ reader = Table(
     "reader",
     metadata,
     Column("id", Integer, primary_key=True),
-    Column("name", String),
-    Column("phone_number", String),
-    Column("photo", String, nullable=True),
-    Column("birth_date", TIMESTAMP)
+    Column("name", String, nullable=False),
+    Column("phone_number", String, nullable=False),
+    Column("photo", String),
+    Column("birth_date", TIMESTAMP(timezone=True))
 )
