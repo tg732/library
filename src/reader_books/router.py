@@ -1,4 +1,4 @@
-from typing import List, Any
+from typing import Annotated, List, Any
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -12,12 +12,11 @@ router = APIRouter(
     tags=["ReaderBooks"]
 )
 
-# @router.get("/books")
-# async def getbooks():
-#     return [{'bookname_1', 'author_1'}, {'bookname_2', 'author_2'}]
-
 @router.post("/reader_books")
-async def add_book(new_reader_books: ReaderBooksCreate, session: AsyncSession = Depends(get_async_session)):
+async def add_book(
+    new_reader_books: Annotated[ReaderBooksCreate, Depends()], 
+    session: AsyncSession = Depends(get_async_session)
+):
     print(new_reader_books.model_dump())
     stmt = insert(reader_books).values(new_reader_books.model_dump())
     await session.execute(stmt)

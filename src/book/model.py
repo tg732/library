@@ -9,6 +9,6 @@ book = Table(
     Column("name", String, nullable=False),
     Column("author", String, nullable=False),
     Column("cover", String),
-    Column("date", TIMESTAMP(timezone=True)),
+    Column("writing_date", TIMESTAMP(timezone=True)),
     Column("type", String),
 )
