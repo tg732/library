@@ -18,8 +18,8 @@ async def add_book(
     session: AsyncSession = Depends(get_async_session)
 ):
     print(new_book.model_dump())
-    file = new_book.cover
-    new_book.cover = new_book.cover.filename
+    #file = new_book.cover
+    new_book.cover_path = str(new_book.cover_path)
     stmt = insert(book).values(new_book.model_dump())
     await session.execute(stmt)
     await session.commit()

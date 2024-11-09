@@ -8,7 +8,7 @@ book = Table(
     Column("id", Integer, primary_key=True),
     Column("name", String, nullable=False),
     Column("author", String, nullable=False),
-    Column("cover", String),
+    Column("cover_path", String),
     Column("writing_date", TIMESTAMP(timezone=True)),
     Column("type", String),
 )
