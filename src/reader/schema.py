@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel
@@ -9,4 +9,4 @@ class ReaderCreate(BaseModel):
     name: str
     phone_number: str
     photo: Optional[str] = None
-    birth_date: date
+    birth_date: datetime

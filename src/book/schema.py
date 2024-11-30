@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from typing import Optional
 from fastapi import File, UploadFile
 
@@ -10,5 +10,5 @@ class BookCreate(BaseModel):
     name: str
     author: str
     cover_path: Optional[FilePath] = None
-    writing_date: Optional[date] = None
+    writing_date: Optional[datetime] = None
     type: str
