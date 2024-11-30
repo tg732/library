@@ -2,7 +2,7 @@ from datetime import date
 from typing import Optional
 from fastapi import File, UploadFile
 
-from pydantic import BaseModel, FilePath
+from pydantic import BaseModel, FilePath, NewPath
 
 
 class BookCreate(BaseModel):
