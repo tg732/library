@@ -4,6 +4,8 @@ services:
     container_name: redis_app
     healthcheck:
       test: ["CMD", "redis-cli","ping"]
+    ports:
+      - 6379:6379
 
   app:
     image: library_app

@@ -9,6 +9,6 @@ class BookCreate(BaseModel):
     id: int
     name: str
     author: str
-    cover_path: Optional[FilePath] = None
+    cover_path: Optional[str] = None
     writing_date: Optional[datetime] = None
     type: str
