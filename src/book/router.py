@@ -27,3 +27,12 @@ async def get_books(
     
     books = await BookService().get_books(session)
     return books
+
+@router.get("/books/{name}")
+async def get_books_by_name(
+    name: str,
+    session: AsyncSession = Depends(get_async_session),
+) -> List[BookCreate]:
+    
+    books = await BookService().get_books_by_name(name, session)
+    return books
