@@ -1,25 +1,23 @@
-from typing import Annotated, List
-from fastapi import Depends
+from typing import List
 from sqlalchemy import insert, select
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from database import get_async_session
+from dependencies import ReaderBooksDep, SessionDep
 from reader_books.model import reader_books
 from reader_books.schema import ReaderBooksCreate
 
 class ReaderBooksService:
-    async def add_book(
+    async def add_readers_book(
         self,
-        new_reader_books: Annotated[ReaderBooksCreate, Depends()], 
-        session: AsyncSession = Depends(get_async_session)
+        new_reader_books: ReaderBooksDep, 
+        session: SessionDep
     ):
         stmt = insert(reader_books).values(new_reader_books.model_dump())
         await session.execute(stmt)
         await session.commit()
 
-    async def get_books(
+    async def get_readers_books(
         self,
-        session: AsyncSession = Depends(get_async_session),
+        session: SessionDep,
     ) -> List[ReaderBooksCreate]:
         
         query = select(reader_books)

@@ -1,22 +1,20 @@
 import redis
 import json
 
-from typing import Annotated, List, Any
-from fastapi import Depends
+from typing import List
 from sqlalchemy import insert, select
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from database import get_async_session
 from book.model import book
 from book.schema import BookCreate
 
 from config import REDIS_HOST, REDIS_PORT
+from dependencies import BookDep, SessionDep
 
 class BookService:
     async def add_book(
         self,
-        new_book: Annotated[BookCreate, Depends()], 
-        session: AsyncSession = Depends(get_async_session)
+        new_book: BookDep, 
+        session: SessionDep
     ):
         new_book.cover_path = str(new_book.cover_path)
         stmt = insert(book).values(new_book.model_dump())
@@ -29,7 +27,7 @@ class BookService:
     
     async def get_books(
         self,
-        session: AsyncSession = Depends(get_async_session),
+        session: SessionDep,
     ) -> List[BookCreate]:
         
         query = select(book)
@@ -39,7 +37,7 @@ class BookService:
     async def get_books_by_name(
         self,
         name: str,
-        session: AsyncSession = Depends(get_async_session),
+        session: SessionDep,
     ) -> BookCreate:
         client = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=0, decode_responses=True)
         result = client.get(name)

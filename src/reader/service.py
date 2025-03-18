@@ -1,9 +1,7 @@
-from typing import Annotated, List
-from fastapi import Depends
+from typing import List
 from sqlalchemy import insert, select
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from database import get_async_session
+from dependencies import ReaderDep, SessionDep
 from reader.model import reader
 from reader.schema import ReaderCreate
 
@@ -11,8 +9,8 @@ from reader.schema import ReaderCreate
 class ReaderService:
     async def add_reader(
         self,
-        new_reader: Annotated[ReaderCreate, Depends()], 
-        session: AsyncSession = Depends(get_async_session)
+        new_reader: ReaderDep, 
+        session: SessionDep
     ):
         stmt = insert(reader).values(new_reader.model_dump())
         await session.execute(stmt)
@@ -20,7 +18,7 @@ class ReaderService:
 
     async def get_readers(
         self,
-        session: AsyncSession = Depends(get_async_session),
+        session: SessionDep,
     ) -> List[ReaderCreate]:
         
         query = select(reader)

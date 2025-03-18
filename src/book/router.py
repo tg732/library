@@ -1,11 +1,10 @@
-from typing import Annotated, List, Any
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
+from typing import List
+from fastapi import APIRouter
 
-from database import get_async_session
 from book.schema import BookCreate
 
 from book.service import BookService
+from dependencies import BookDep, SessionDep
 
 router = APIRouter(
     prefix="/books",
@@ -14,15 +13,15 @@ router = APIRouter(
 
 @router.post("/books")
 async def add_book(
-    new_book: Annotated[BookCreate, Depends()], 
-    session: AsyncSession = Depends(get_async_session)
+    new_book: BookDep, 
+    session: SessionDep
 ):
     await BookService().add_book(new_book, session)
     return {"status": "success"}
 
 @router.get("/books")
 async def get_books(
-    session: AsyncSession = Depends(get_async_session),
+    session: SessionDep,
 ) -> List[BookCreate]:
     
     books = await BookService().get_books(session)
@@ -31,7 +30,7 @@ async def get_books(
 @router.get("/books/{name}")
 async def get_books_by_name(
     name: str,
-    session: AsyncSession = Depends(get_async_session),
+    session: SessionDep,
 ) -> List[BookCreate]:
     
     books = await BookService().get_books_by_name(name, session)
